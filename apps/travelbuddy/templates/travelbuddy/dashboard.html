@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="Coding Dojo Python/Django Travel Buddy Black Belt Exam">
+	{% load staticfiles %}
+	<title>Travel Buddy Login/Registration</title>
+	<link rel="stylesheet" href="{% static 'travelbuddy/css/css_boilerplate.css' %}" media="screen">
+	<style media="screen">
+		h1 {
+			margin: 15px 0 20px;
+		}
+		table {
+			margin-left: 5%;
+		}
+		#adddest {
+			width: 10em;
+		}
+	</style>
+</head>
+<body>
+	<main class="ninety">
+		<a class="btn btn-dflt right" href="{% url 'travelbuddy:logout' %}">Logout</a>
+		<header class="hundo">
+			<h1>Hello, {{ user.username }}</h1>
+		</header>
+		<section class="ninety">
+			<h2>Your Trip Schedules</h2>
+			<table class="hundo">
+				<thead>
+					<th>Destination</th>
+					<th>Travel Start Date</th>
+					<th>Trave End Date</th>
+					<th>Plan</th>
+				</thead>
+				{% for trip in trips %}
+					<tr>
+						<td><a href="{% url 'travelbuddy:destination' id=trip.id %}">{{ trip.destination }}</a></td>
+						<td>{{ trip.start_date }}</td>
+						<td>{{ trip.end_date }}</td>
+						<td>{{ trip.plan }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+		<section class="ninety">
+			<h2>Other User's Travel Plans</h2>
+			<table class="hundo">
+				<thead>
+					<th>Name</th>
+					<th>Destination</th>
+					<th>Travel Start Date</th>
+					<th>Trave End Date</th>
+					<th>Do You Want to Join?</th>
+				</thead>
+				{% for other in others %}
+					<tr>
+						<td>{{ other.planner.name }}</td>
+						<td><a href="{% url 'travelbuddy:destination' id=other.id %}">{{ other.destination }}</a></td>
+						<td>{{ other.start_date }}</td>
+						<td>{{ other.end_date }}</td>
+						<td><a href="{% url 'travelbuddy:jointrip' id=other.id %}">Join</a></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+		<a id="adddest" class="btn btn-pop" href="{% url 'travelbuddy:adddest' %}">Add Travel Plan</a>
+	</main>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="Coding Dojo Python/Django Travel Buddy Black Belt Exam">
+	{% load staticfiles %}
+	<title>Travel Buddy Destination</title>
+	<link rel="stylesheet" href="{% static 'travelbuddy/css/css_boilerplate.css' %}" media="screen">
+	<style media="screen">
+		h1 {
+			font-size: 2em;
+			margin: 0 0 20px 0;
+		}
+		header > a.btn {
+			margin: 0 0 0 20px;
+		}
+		p {
+			margin: 5px 0 0 20px;
+		}
+		h2 {
+			margin: 15px 0;
+		}
+	</style>
+</head>
+<body>
+	<main class="ninety">
+		<header>
+			<a class="btn btn-pop right" href="{% url 'travelbuddy:dashboard' %}">Home</a>
+			<a class="btn btn-dflt right" href="{% url 'travelbuddy:logout' %}">Logout</a>
+		</header>
+		<section class="eighty">
+			<h1>{{ trip.destination }}</h1>
+			<p><strong>Planned By:</strong>&nbsp;{{ trip.planner.name }}</p>
+			<p><strong>Description:</strong>&nbsp;{{ trip.plan }}</p>
+			<p><strong>Travel Date From:</strong>&nbsp;{{ trip.start_date }}</p>
+			<p><strong>Travel Date To:</strong>&nbsp;{{ trip.end_date }}</p>
+		</section>
+		<section class="eighty">
+			<h2>Other users joining the trip:</h2>
+			{% for join in trip.joins.all %}
+				<p>{{ join.name }}</p>
+			{% endfor %}
+		</section>
+	</main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="Coding Dojo Python/Django Travel Buddy Black Belt Exam">
+	{% load staticfiles %}
+	<title>Travel Buddy Add Plan</title>
+	<link rel="stylesheet" href="{% static 'travelbuddy/css/css_boilerplate.css' %}" media="screen">
+	<style media="screen">
+		header > a.btn {
+			margin: 0 0 0 20px;
+		}
+		form > input.btn {
+			position: relative;
+			right: -69%;
+		}
+	</style>
+</head>
+<body>
+	<main class="ninety">
+		<header>
+			<a class="btn btn-dflt right" href="{% url 'travelbuddy:logout' %}">Logout</a>
+			<a class="btn btn-pop right" href="{% url 'travelbuddy:dashboard' %}">Home</a>
+		</header>
+		<section class="eighty">
+			<h1>Add a Trip</h1>
+			{% if messages %}
+				<div class="notif">
+					{% for message in messages %}
+						<p class="red">{{ message }}</p>
+					{% endfor %}
+				</div><!-- end_of_notif red-->
+			{% endif %}
+			<form class="eighty" action="{% url 'travelbuddy:createtrip' %}" method="post">
+				{% csrf_token %}
+				<label class="thirty" for="destination">Destination:</label>
+				<input id="destination" class="fifty" type="text" name="destination">
+				<label class="thirty" for="plan">Plan:</label>
+				<input class="fifty" type="text" name="plan">
+				<label class="forty" for="start_date">Travel Date From:</label>
+				<input class="forty" type="date" name="start_date">
+				<label class="forty" for="end_date">Travel Date To:</label>
+				<input class="forty" type="date" name="end_date">
+				<input class="btn btn-pop" type="submit" name="add" value="Add">
+			</form>
+		</section>
+	</main>
+	<script type="text/javascript">
+		var destination = document.getElementById('destination');
+		destination.focus();
+	</script>
+</body>
+</html>

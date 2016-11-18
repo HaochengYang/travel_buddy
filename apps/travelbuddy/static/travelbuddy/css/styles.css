@@ -1,0 +1,36 @@
+section hr:last-child {
+	display: none;
+}
+
+h2 {
+	margin: 15px 0 15px 30px;
+}
+
+p {
+	margin: 10px auto;
+	text-align: center;
+}
+
+.btn {
+	margin: 0 10px 0 10px;
+}
+
+#seeall {
+	width: 8em;
+}
+
+#secretbutton {
+	margin: 10px 0 0;
+}
+
+hr {
+	margin-left: 50%;
+	transform: translateX(-50%);
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+textarea {
+	padding: 5px;
+}

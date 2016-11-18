@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="Coding Dojo Python/Django Travel Buddy Black Belt Exam">
+	{% load staticfiles %}
+	<title>Travel Buddy Dashboard</title>
+	<link rel="stylesheet" href="{% static 'travelbuddy/css/css_boilerplate.css' %}" media="screen">
+	<style media="screen">
+		section {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.sixty {
+			width: 58%;
+		}
+		.hidden {
+			display: none;
+		}
+		h1 {
+			text-align: center;
+		}
+		main section:first-child {
+			border-right: 1px solid gray;
+			padding-left: 40px;
+			padding-right: 50px;
+		}
+		main section:last-child {
+			padding-left: 40px;
+			padding-right: 50px;
+			width: 49%;
+		}
+		#pworderror {
+			border: 1px solid gray;
+			padding: 5px;
+			color: red;
+			font-size: .9em;
+		}
+	</style>
+</head>
+<body>
+	<main class="eighty">
+		<section class="fifty">
+			<h1>Register</h1>
+			{% if messages %}
+				<div class="notif">
+					{% for message in messages %}
+						{% if message.tags == "error" %}
+							<p class="red">{{ message }}</p>
+						{% endif %}
+					{% endfor %}
+				</div><!-- end_of_notif red-->
+			{% endif %}
+			<form class="hundo" action="{% url 'travelbuddy:validate' typelogin='register' %}" method="post">
+				{% csrf_token %}
+				<label class="forty" for="name">Name:</label>
+				<input id="namefield" class="sixty" type="text" name="name">
+				<label class="forty" for="username">Username:</label>
+				<input class="sixty" type="text" name="username" >
+				<label class="forty" for="password">Password:</label>
+				<input id="password" class="sixty" type="password" name="password" onkeyup="checkPword()" onkeydown="checkPword()">
+				<p id="pworderror" class="hidden"><em>Password must be at least 8 characters and contain one uppercase letter, one lowercase letter, one number, and one special character.</em></p>
+				<label class="forty" for="confirm">Confirm Password:</label>
+				<input id="confirm" class="sixty" type="password" name="confirm" onkeyup="checkConf()" onkeydown="checkConf()">
+				<input class="btn btn-pop" type="submit" name="register" value="Register">
+			</form>
+		</section>
+		<section class="right">
+			<h1>Login</h1>
+			{% if messages %}
+				<div class="notif">
+					{% for message in messages %}
+						{% if message.tags == "warning" %}
+							<p class="red">{{ message }}</p>
+						{% endif %}
+					{% endfor %}
+				</div><!-- end_of_notif red-->
+			{% endif %}
+			<form class="hundo" action="{% url 'travelbuddy:validate' typelogin='login' %}" method="post">
+				{% csrf_token %}
+				<label class="forty" for="username">Username:</label>
+				<input class="sixty" type="text" name="username">
+				<label class="forty" for="password">Password:</label>
+				<input class="sixty" type="password" name="password">
+				<input class="btn btn-pop" type="submit" name="login" value="Login">
+			</form>
+		</section>
+	</main>
+	<script type="text/javascript">
+		var pwordError = document.getElementById('pworderror'),
+		namefield = document.getElementById('namefield'),
+		pword = document.getElementById('password'),
+		conf = document.getElementById('confirm'),
+		pwordReg = /(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{:;'?/><.;,])(?!.*\s).*$/;
+		function checkPword() { //allows the password error box to be dynamically rendered and adds a red or green border to the password input based on the password entered matching the given regex
+			if (pword.value.match(pwordReg)) {
+				pwordError.className = "hidden";
+				pword.style.border = "3px solid green";
+			} else {
+				pwordError.innerHTML = "Password must be at least 8 characters and contain one uppercase letter, one lowercase letter, one number, and one special character.";
+				pwordError.className = "";
+				pword.style.border = "3px solid red";
+			}
+		}
+		function checkConf() { //outlines the confirm password input based on it matching the password input
+			if (conf.value == pword.value && conf.value.match(pwordReg)) {
+				conf.style.border = "3px solid green";
+			} else {
+				conf.style.border = "3px solid red";
+			}
+		}
+		namefield.focus(); //on page load, puts the cursor in the register name input field
+	</script>
+</body>
+</html>
