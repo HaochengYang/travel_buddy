@@ -25,7 +25,7 @@ SECRET_KEY = '92)zuzsi*k-0ep(62s7a6y70_al5_fmso+bec+4(v+i$5%hxbe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['35.164.68.222', 'ec2-35-164-68-222.us-west-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -120,3 +120,5 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")

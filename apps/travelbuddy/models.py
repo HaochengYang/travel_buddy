@@ -63,38 +63,41 @@ class UserManager(models.Manager):
 		return new_user #return the newly created user's information
 
 class TripManager(models.Manager):
-	def validator(self, tripData, user):
-		errors = []
-		result = {}
-		today = datetime.now()
-		try:
+	def validator(self, tripData, user): #validates the entered trip information
+		errors = [] #creates an empty list for errors
+		result = {} #creates an empty dictionary for the result
+		today = datetime.now() #creates a variable for today's date/time
+
+		try: #try to convert the user's entered date to something that we can compare the today variable to
 			start = datetime.strptime(tripData['start_date'], "%Y-%m-%d")
 			end = datetime.strptime(tripData['end_date'], "%Y-%m-%d")
-			if start < today:
+
+			if start < today: #if the trip start_date is before today...
 				errors.append('All dates need to be after today.')
-			if end < start:
+			if end < start: #if the trip end_date is before the start_date...
 				errors.append('Please ensure your travel date from is before your travel date to.')
-		except ValueError:
+
+		except ValueError: #if a ValueError is thrown because either of the datefields are left blank...
 			pass
 
-		if '' in (tripData['destination'], tripData['plan'], tripData['start_date'], tripData['end_date']):
+		if '' in (tripData['destination'], tripData['plan'], tripData['start_date'], tripData['end_date']): #if any of the fields are left blank...
 			errors.append('Please fill in all fields.')
 
-		if not errors:
-			self.creator(tripData, user)
-			result['created'] = True
+		if not errors: #if there are no errors after being validated...
+			self.creator(tripData, user) #send the entered information along with the user information to the Trip creator method
+			result['created'] = True #set created to True
 
-		else:
-			result['created'] = False
-			result['errors'] = errors
+		else: #if there are errors...
+			result['created'] = False #set created to False
+			result['errors'] = errors #store the errors in result
 
 		return result
 
-	def creator(self, data, user):
+	def creator(self, data, user): #creates the new trip based on the user entered information
 		self.create(destination = data['destination'], plan = data['plan'], start_date = data['start_date'], end_date = data['end_date'], planner = user)
 		return self
 
-	def joiner(self, trip_id, user):
+	def joiner(self, trip_id, user): #joins a particular trip to a user
 		trip = self.get(id = trip_id)
 		trip.joins.add(user)
 		return self
